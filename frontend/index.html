@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tharun Farm Fresh — Pure, Natural Grass-Fed Dairy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= NATURAL FARM HEADER ================= -->
+  <header class="farm-header">
+    <div class="header-main">
+      <!-- Natural Brand Logo -->
+      <a href="#" class="brand-logo" onclick="showView('home'); return false;">
+        <div class="logo-icon-wrap">
+          <svg viewBox="0 0 28 28" width="28" height="28" fill="none">
+            <!-- Organic leaf & milk bottle droplet -->
+            <path d="M14 2C9 7 6 12 6 17a8 8 0 0016 0c0-5-3-10-8-15z" fill="#40916C"/>
+            <path d="M14 8c-2.5 3-4 6-4 9a4 4 0 008 0c0-3-1.5-6-4-9z" fill="#E9F5EF"/>
+            <path d="M14 14v4M12 16h4" stroke="#2D6A4F" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <span class="brand-name">Tharun</span>
+          <span class="brand-tagline">Farm Fresh Dairy</span>
+        </div>
+        <span class="organic-pill">100% Organic</span>
+      </a>
+
+      <!-- Morning Delivery Location Pin -->
+      <div class="delivery-location-chip" onclick="promptLocation()">
+        <div class="loc-pin">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+            <circle cx="12" cy="9" r="2.5"/>
+          </svg>
+        </div>
+        <div class="loc-text">
+          <span class="loc-sub" id="nav-deliver-line1">Delivering morning fresh to</span>
+          <span class="loc-main" id="nav-deliver-line2">Bangalore 560001 ▾</span>
+        </div>
+      </div>
+
+      <!-- Natural Search Bar -->
+      <div class="farm-search-bar">
+        <select class="search-category" id="search-dept" onchange="applyFilters()">
+          <option value="all">All Farm Staples</option>
+          <option value="Milk">Fresh Cow Milk</option>
+          <option value="Curd">Farm Curd & Paneer</option>
+          <option value="Ghee">Cultured Desi Ghee & Butter</option>
+        </select>
+        <input type="text" id="search-input" class="search-input" placeholder="Search fresh raw milk, bilona ghee, soft paneer..." onkeyup="handleSearchKey(event)">
+        <button class="search-btn" aria-label="Search" onclick="applyFilters()">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Right Header Actions -->
+      <div class="header-right-actions">
+        <!-- Account / Sign In -->
+        <div class="account-nav-wrap" id="nav-account-logged-out">
+          <button class="btn-farm-outline" onclick="showView('login')">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Sign In
+          </button>
+        </div>
+
+        <div class="account-nav-wrap" id="nav-account-logged-in" style="display:none;">
+          <div class="user-greeting-chip">
+            <div class="avatar-circle" id="avatar-initial">U</div>
+            <div class="user-details">
+              <span class="user-welcome">Hi, <strong id="account-name">User</strong></span>
+              <div class="user-quick-links">
+                <a href="#" onclick="showOrdersModal(); return false;">My Orders</a>
+                <span>•</span>
+                <a href="#" onclick="logout(); return false;">Sign Out</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Orders -->
+        <a href="#" class="orders-nav-btn" onclick="showOrdersModal(); return false;" title="View past morning deliveries">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+          <span class="orders-text">Deliveries</span>
+        </a>
+
+        <!-- Natural Cart / Basket Button -->
+        <button class="cart-basket-btn" onclick="openCart()">
+          <div class="basket-icon-wrap">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            <span class="basket-count" id="cart-count">0</span>
+          </div>
+          <span class="basket-label">Basket</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sub-Header: Organic Categories & Farm Assurance -->
+    <div class="header-subbar">
+      <div class="subbar-categories">
+        <button class="cat-pill active" data-cat="All" onclick="filterCategory('All')">🌿 All Staples</button>
+        <button class="cat-pill" data-cat="Milk" onclick="filterCategory('Milk')">🥛 Fresh Milk</button>
+        <button class="cat-pill" data-cat="Curd" onclick="filterCategory('Curd')">🥣 Farm Curd & Paneer</button>
+        <button class="cat-pill" data-cat="Ghee" onclick="filterCategory('Ghee')">🧈 Desi Ghee & Butter</button>
+        <button class="cat-pill deal-pill" onclick="filterDeals()">✨ Morning Fresh Deals</button>
+      </div>
+      <div class="farm-assurance-badge">
+        <span>🌱 Harvested 5:00 AM • Cold-Chain Delivery before 7:00 AM</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= NATURAL FARM PROMO BANNER ================= -->
+  <section class="farm-hero-banner">
+    <div class="banner-card">
+      <div class="banner-content">
+        <div class="banner-tag">🌾 100% Single-Origin Grass-Fed Dairy</div>
+        <h2>Pure Milk from Country Farms, Delivered Fresh Every Dawn.</h2>
+        <p>No chemicals, no artificial preservatives, no processing delays. Milked fresh at 5:00 AM from grass-fed Desi cows and delivered to your doorstep before breakfast.</p>
+        <div class="banner-features">
+          <span class="feature-item">✓ A2 Certified</span>
+          <span class="feature-item">✓ Chilled in Glass Bottles</span>
+          <span class="feature-item">✓ Zero Adulteration Tested</span>
+          <span class="feature-item">✓ Free 7:00 AM Doorstep Drop</span>
+        </div>
+      </div>
+      <div class="banner-graphic">
+        <div class="organic-seal">
+          <span class="seal-icon">🌿</span>
+          <span class="seal-text">FARM FRESH<br><strong>GUARANTEE</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN CATALOG (NATURAL E-COMMERCE) ================= -->
+  <div id="view-home" class="view-content">
+    <main class="catalog-layout">
+      <!-- Natural Filter Sidebar -->
+      <aside class="catalog-sidebar">
+        <div class="sidebar-block">
+          <h3 class="sidebar-title">Categories</h3>
+          <ul class="natural-filter-list">
+            <li><a href="#" class="filter-item active" onclick="filterCategory('All'); return false;" id="filter-all">🌾 All Dairy Products</a></li>
+            <li><a href="#" class="filter-item" onclick="filterCategory('Milk'); return false;" id="filter-milk">🥛 Farm Fresh Cow Milk</a></li>
+            <li><a href="#" class="filter-item" onclick="filterCategory('Curd'); return false;" id="filter-curd">🥣 Set Curd & Soft Paneer</a></li>
+            <li><a href="#" class="filter-item" onclick="filterCategory('Ghee'); return false;" id="filter-ghee">🧈 Bilona Ghee & White Butter</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-block">
+          <h3 class="sidebar-title">Price Range</h3>
+          <ul class="natural-filter-list">
+            <li><a href="#" class="filter-item" onclick="filterPrice(0, 50); return false;">Under ₹50</a></li>
+            <li><a href="#" class="filter-item" onclick="filterPrice(50, 100); return false;">₹50 - ₹100</a></li>
+            <li><a href="#" class="filter-item" onclick="filterPrice(100, 200); return false;">₹100 - ₹200</a></li>
+            <li><a href="#" class="filter-item" onclick="filterPrice(200, 1000); return false;">Over ₹200</a></li>
+            <li><a href="#" class="filter-reset-link" onclick="resetFilters(); return false;">↺ Reset all filters</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-block">
+          <h3 class="sidebar-title">Customer Satisfaction</h3>
+          <ul class="natural-filter-list rating-list">
+            <li><a href="#" class="filter-item" onclick="filterRating(4.8); return false;">★★★★★ 4.8 & above</a></li>
+            <li><a href="#" class="filter-item" onclick="filterRating(4.5); return false;">★★★★☆ 4.5 & above</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-block image-manager-block">
+          <h3 class="sidebar-title">📷 Custom Photos</h3>
+          <p class="sidebar-hint">Have your own milk bottle or farm photos? Click <strong>"Upload Photo"</strong> on any product card to preview your own image. Stored safely on your machine.</p>
+          <button class="btn-reset-photos" onclick="clearAllUploadedImages()">Reset to Default Placeholders</button>
+        </div>
+      </aside>
+
+      <!-- Main Products Catalog Area -->
+      <section class="catalog-main">
+        <!-- Results Bar -->
+        <div class="catalog-toolbar">
+          <div class="results-heading">
+            <span id="results-count-line">Showing all <strong>6 farm-fresh dairy staples</strong></span>
+          </div>
+          <div class="sort-toolbar">
+            <label for="sort-select">Sort by:</label>
+            <select id="sort-select" onchange="applySorting()">
+              <option value="featured">Farm Favorites</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Top Rated by Customers</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid Container -->
+        <div class="natural-products-grid" id="theme-grid">
+          <!-- Dynamically populated via script.js -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Natural Farm Footer -->
+    <footer class="farm-footer">
+      <div class="footer-top-strip">
+        <div class="strip-item">
+          <span class="strip-icon">🌱</span>
+          <div>
+            <strong>100% Grass-Fed Cows</strong>
+            <p>Free grazing on pesticide-free pastures</p>
+          </div>
+        </div>
+        <div class="strip-item">
+          <span class="strip-icon">⏰</span>
+          <div>
+            <strong>Delivered by 7:00 AM</strong>
+            <p>Direct from morning harvest</p>
+          </div>
+        </div>
+        <div class="strip-item">
+          <span class="strip-icon">🧪</span>
+          <div>
+            <strong>Tested for Purity</strong>
+            <p>Zero antibiotics, zero adulterants</p>
+          </div>
+        </div>
+        <div class="strip-item">
+          <span class="strip-icon">♻️</span>
+          <div>
+            <strong>Eco Glass Bottling</strong>
+            <p>Sterilized, reusable, cold-chain delivered</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom-bar">
+        <div class="footer-copy">
+          © 2026 Tharun Farm Fresh Dairy Co. All natural farm products delivered directly to your doorstep.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ================= NATURAL LOGIN VIEW ================= -->
+  <div class="auth-wrapper" id="view-login" style="display:none;">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-leaf">🌿</span>
+        <h2>Welcome Back to Freshness</h2>
+        <p>Log in to manage your daily morning dairy subscription.</p>
+      </div>
+      <form onsubmit="return handleLogin(event)">
+        <div class="auth-field">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" required autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required autocomplete="current-password" placeholder="••••••••">
+        </div>
+        <div class="auth-error" id="login-error">That email and password don't match an account here.</div>
+        <button class="btn-farm-primary" type="submit">Sign In to Account</button>
+      </form>
+      <div class="auth-footer">
+        New to Tharun Farm Fresh? <a href="#" onclick="showView('signup'); return false;">Create an account</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NATURAL SIGNUP VIEW ================= -->
+  <div class="auth-wrapper" id="view-signup" style="display:none;">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-leaf">🌱</span>
+        <h2>Join the Fresh Dairy Family</h2>
+        <p>Subscribe or order wholesome, natural milk delivered daily before 7 AM.</p>
+      </div>
+      <form onsubmit="return handleSignup(event)">
+        <div class="auth-field">
+          <label for="signup-name">Full Name</label>
+          <input type="text" id="signup-name" required autocomplete="name" placeholder="E.g. Tharun Kumar">
+        </div>
+        <div class="auth-field">
+          <label for="signup-email">Email Address</label>
+          <input type="email" id="signup-email" required autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label for="signup-password">Create Password</label>
+          <input type="password" id="signup-password" required minlength="6" autocomplete="new-password" placeholder="At least 6 characters">
+        </div>
+        <div class="auth-error" id="signup-error">An account with that email already exists.</div>
+        <button class="btn-farm-primary" type="submit">Create Free Account</button>
+      </form>
+      <div class="auth-footer">
+        Already have an account? <a href="#" onclick="showView('login'); return false;">Sign in</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HIDDEN FILE INPUT FOR PHOTO UPLOADS ================= -->
+  <input type="file" id="product-img-file-input" accept="image/*" style="display:none;" onchange="handleImageFileSelected(event)">
+
+  <!-- ================= NATURAL CART DRAWER ================= -->
+  <div id="cart-overlay" class="cart-backdrop" onclick="if(event.target===this) closeCart()">
+    <div id="cart-drawer" class="natural-cart-drawer">
+      <div class="cart-head">
+        <div class="cart-head-title">
+          <span class="cart-head-icon">🧺</span>
+          <h3>Your Fresh Basket</h3>
+        </div>
+        <button class="btn-close-cart" onclick="closeCart()">&times;</button>
+      </div>
+
+      <div class="cart-delivery-pill">
+        <span>🌱 Eligible for <strong>Free Morning Delivery</strong> before 7:00 AM</span>
+      </div>
+
+      <div id="cart-items" class="cart-items-box">
+        <!-- Populated via script.js -->
+      </div>
+
+      <div class="cart-footer" id="cart-footer-block" style="display:none;">
+        <div class="cart-total-row">
+          <span>Subtotal (<span id="cart-item-count-text">0 items</span>):</span>
+          <strong id="cart-total-amount">₹0</strong>
+        </div>
+        <button class="btn-farm-primary checkout-btn" id="checkout-btn" onclick="checkout()">
+          Confirm Delivery Order
+        </button>
+        <button class="btn-farm-outline continue-btn" onclick="closeCart()">
+          Add More Farm Staples
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DELIVERIES / ORDERS MODAL ================= -->
+  <div id="orders-modal" class="modal-backdrop" onclick="if(event.target===this) closeOrdersModal()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span style="font-size:22px;">🥛</span>
+          <h3>Your Morning Dairy Deliveries</h3>
+        </div>
+        <button class="modal-close" onclick="closeOrdersModal()">&times;</button>
+      </div>
+      <div id="orders-list-wrap" class="orders-scroll-area">
+        <!-- Populated via script.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
