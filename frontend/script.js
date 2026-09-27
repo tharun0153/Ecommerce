@@ -3,7 +3,7 @@
 // =========================================================
 
 // Server API config — untouched standard endpoints
-const API_BASE = 'https://ecommerce-87b5.onrender.com/api';
+const API_BASE = 'https://ecommerce-87b5.onrender.com';
 
 let THEMES = [];             // loaded from /api/themes (or fallback)
 let currentUser = null;      // {id, name, email}
